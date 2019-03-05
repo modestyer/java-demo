@@ -14,27 +14,24 @@ import java.io.InputStream;
 public class ReadFile {
 
 
-    public static void inputStreamRead(){
-
-        InputStream inputStream = null;
-
-        File file = new File("D:\\GprsFlow_20181101.txt");
-
-        try {
-            inputStream = new FileInputStream(file);
-
-            byte[] b = new byte[(int) file.length()];
-
-            inputStream.read(b);
-            inputStream.close();
-            System.out.println("文件长度为："+file.length());
-            System.out.println(new String(b));
-        } catch (Exception e) {
-            e.printStackTrace();
+    public static void inputStreamRead() throws Exception{
+        File file = new File("E:\\密码.txt");
+        String result="";
+        try (InputStream in = new FileInputStream(file);) {
+            byte[] bytes = new byte[(int) file.length()];
+            in.read(bytes);
+            result = new String(bytes,"gbk");
+            System.out.println(result);
         }
+
     }
 
     public static void main(String[] args) {
-        inputStreamRead();
+
+        try {
+            inputStreamRead();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
