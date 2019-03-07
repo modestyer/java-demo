@@ -14,7 +14,7 @@ import java.io.InputStream;
  * @Since 1.0
  * @Date 2019/2/13
  **/
-public class ReadFile {
+public class FileInputStreamTest {
 
 
     /**
