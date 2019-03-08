@@ -21,3 +21,17 @@ def importExcel(file, personService) {
     }
 }*/
 
+class TestGroovy{
+    def hello(param1, param2) {
+        return "hello groovy....................! the params is $param1 and $param2"
+    }
+
+    static main(args) {
+
+        hello;
+
+        println("x+y="+z);
+
+    }
+}
+

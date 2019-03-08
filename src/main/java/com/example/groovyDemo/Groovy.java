@@ -1,6 +1,7 @@
 package com.example.groovyDemo;
 
 import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 import groovy.util.GroovyScriptEngine;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -157,6 +158,28 @@ public class Groovy {
     }
 
 
+    public static void evalScriptTextFull() throws Exception{
+        StringBuffer buffer = new StringBuffer();
+        //define API
+        buffer.append("class User{")
+                .append("String name;Integer age;")
+                //.append("User(String name,Integer age){this.name = name;this.age = age};")
+                .append("String sayHello(){return 'Hello,I am ' + name + ',age ' + age;}}\n");
+        //Usage
+        buffer.append("def user = new User(name:'zhangsan',age:1);")
+                .append("user.sayHello();");
+        //groovy.lang.Binding
+        System.out.println(buffer.toString());
+        Binding binding = new Binding();
+        GroovyShell shell = new GroovyShell(binding);
+        String message = (String)shell.evaluate(buffer.toString());
+        System.out.println(message);
+        //重写main方法,默认执行
+        String mainMethod = "static void main(String[] args){def user = new User(name:'lisi',age:12);print(user.sayHello());}";
+        shell.evaluate(mainMethod);
+        shell = null;
+    }
+
 
     @RequestMapping("/groovy")
     private String helloGroovy(){
@@ -166,20 +189,30 @@ public class Groovy {
         return res3.toString();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Groovy groovy = new Groovy();
         /*groovy.getScriptEngineFactoryList();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("language", "groovy test");
         Object res = groovy.runGroovyScript("return \"Hello $language\"", params);
-        String script = "def hello(param1,param2) {return \"the params is $param1 and $param2\"}";
+        */
+        /*String script = "def hello(param1,param2) {return \"the params is $param1 and $param2\"}";
         Object res1 = groovy.runGroovyScript(script, "hello", new String[] { "param1", "param2" });
-        System.out.println(res);
+//        System.out.println(res);
         System.out.println(res1);*/
 
-        Object res3 = groovy.runGroovyScriptByFile(null, "hello.groovy", "hello", new String[] { "param3", "param4" });
-        System.out.println(res3);
+        /*Object res3 = groovy.runGroovyScriptByFile(null, "hello3.groovy", "hello", new String[] { "param3", "param4" });
+        System.out.println(res3);*/
 
+        /*String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+        System.out.println(uuid);*/
+
+
+        /*String script = "class Person {\n"+"def hello(param1,param2) {return \"the params is $param1 and $param2\"}"+"\n}";
+        System.out.println(script);
+        Object res1 = groovy.runGroovyScript(script, "hello", new String[] { "param1", "param2" });
+        System.out.println(res1);*/
+        evalScriptTextFull();
     }
 
 

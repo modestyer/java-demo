@@ -18,7 +18,7 @@ import java.io.IOException;
  * @Date 2019/2/26
  **/
 public class GroovyTest {
-    static String groovyFile = "hello.groovy";
+    static String groovyFile = "hello3.groovy";
 
     public static void main(String[] args) throws ScriptException, FileNotFoundException, IOException {
         ScriptEngineManager engineManager = new ScriptEngineManager();
