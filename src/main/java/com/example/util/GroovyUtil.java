@@ -1,6 +1,8 @@
 package com.example.util;
 
 import groovy.lang.Binding;
+import groovy.lang.GroovyClassLoader;
+import groovy.lang.GroovyObject;
 import groovy.lang.Script;
 import groovy.util.GroovyScriptEngine;
 
@@ -134,6 +136,15 @@ public class GroovyUtil {
             return null;
         }
     }
+
+    public static Object runScript(String script, String funName, Object[] params) throws Exception{
+        Class clazz = new GroovyClassLoader().parseClass(script);
+        GroovyObject groovyObject = (GroovyObject)clazz.newInstance();
+        SpringContextUtils.autowireBean(groovyObject);
+        return groovyObject.invokeMethod(funName,params);
+//        return new Object();
+    }
+
 
     public void getScriptEngineFactoryList() {
         ScriptEngineManager manager = new ScriptEngineManager();

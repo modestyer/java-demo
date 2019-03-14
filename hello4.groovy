@@ -1,37 +1,52 @@
-def hello(param1, param2) {
-    return "hello groovy....................! the params is $param1 and $param2"
-}
+import com.example.groovyDemo.dao.PersonDao
+import com.example.groovyDemo.entity.Person
+import com.example.groovyDemo.service.GroovyService
+import com.example.groovyDemo.service.PersonService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
+import org.springframework.stereotype.Controller
+import org.springframework.stereotype.Service
 
-/*@Transactional(rollbackFor = Exception.class)
-def importExcel(file, personService) {
-    List<Person> list = ExcelUtil.importExcel(file, 0, 1, Person.class);
-    int n = 3;
-    for (Person person : list) {
-        *//*if(n==3){
-        person=null;
-    }*//*
-        person.setId(n);
-        person.setVar1('测试');
-        person.setPassWord('123456')
-        System.out.println(person.getName());
-        System.out.println(person.getId());
-        System.out.println(person.getVar1());
-        personService.insert(person)
-        n = n - 1;
+@Component
+class TestGroovy implements GroovyService{
+
+    @Autowired
+    PersonDao personDao;
+
+    Object insertTest(List<Person> list){
+        int n = 3;
+        for (Person person : list) {
+            if(n==5){
+                person=null;
+            }
+            person.setId(n);
+            person.setVar1('测试');
+            person.setPassWord('123456')
+            System.out.println(person.getName());
+            System.out.println(person.getId());
+            System.out.println(person.getVar1());
+            personService.insert(person)
+            n++;
+        }
+
     }
-}*/
 
-class TestGroovy{
-    def hello(param1, param2) {
-        return "hello groovy....................! the params is $param1 and $param2"
-    }
-
-    static main(args) {
-
-        hello;
-
-        println("x+y="+z);
-
+    @Override
+    void execute(List<Person> list) {
+        int n = 3;
+        for (Person person : list) {
+            if(n==5){
+                person=null;
+            }
+            person.setId(n);
+            person.setVar1('测试');
+            person.setPassWord('123456')
+            System.out.println(person.getName());
+            System.out.println(person.getId());
+            System.out.println(person.getVar1());
+            personService.insert(person)
+            n++;
+        }
     }
 }
 
