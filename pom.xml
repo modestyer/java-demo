@@ -55,6 +55,12 @@
 			<groupId>cn.afterturn</groupId>
 			<artifactId>easypoi-base</artifactId>
 			<version>3.2.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>guava</artifactId>
+					<groupId>com.google.guava</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>cn.afterturn</groupId>
@@ -117,6 +123,25 @@
 			<version>1.7.2</version>
 		</dependency>
 		<!--日志end-->
+
+
+		<!--Selenium包-->
+		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>3.14.0</version>
+		</dependency>
+
+
+
+
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.5</version>
+		</dependency>
 
 	</dependencies>
 

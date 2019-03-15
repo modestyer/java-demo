@@ -1,14 +1,10 @@
 import com.example.groovyDemo.dao.PersonDao
 import com.example.groovyDemo.entity.Person
-import com.example.groovyDemo.service.GroovyService
-import com.example.groovyDemo.service.PersonService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import org.springframework.stereotype.Controller
-import org.springframework.stereotype.Service
 
 @Component
-class TestGroovy implements GroovyService{
+class TestGroovy{
 
     @Autowired
     PersonDao personDao;
