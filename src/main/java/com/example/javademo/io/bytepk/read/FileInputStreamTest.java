@@ -2,10 +2,12 @@ package com.example.javademo.io.bytepk.read;
 
 
 import com.example.javademo.util.EncodingDetect;
+import lombok.Data;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -15,8 +17,10 @@ import java.util.Arrays;
  * @Since 1.0
  * @Date 2019/2/13
  **/
-public class FileInputStreamTest {
+@Data
+public class FileInputStreamTest implements Serializable {
 
+    private static final long serialVersionUID = 1L;
 
     /**
      * 指定大小读取文件,若文件过大则读不完
