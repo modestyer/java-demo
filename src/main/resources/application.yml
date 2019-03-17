@@ -9,3 +9,12 @@ spring:
     password: 123456
   transaction:
       rollback-on-commit-failure: true
+
+  redis:
+    host: 192.168.49.130
+    jedis:
+      pool:
+        max-idle: 8
+        max-active: 10
+        min-idle: 2
+        max-wait: 100ms

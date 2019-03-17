@@ -133,16 +133,19 @@
 			<version>3.14.0</version>
 		</dependency>
 
-
-
-
-		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+		<!--httpclient -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.5.5</version>
 		</dependency>
 
+
+		<!--redis-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

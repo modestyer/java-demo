@@ -19,8 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,6 +43,11 @@ public class DemoPageProcessor{
     private static final String SEARCHURL = "https://mp.weixin.qq.com/cgi-bin/searchbiz?";
 
     private static final String HEADER = "";
+
+    /**
+     * 正则匹配token
+     */
+    private static Pattern TOKEN_PATTERN = Pattern.compile("(?<=\"&token=).*?(?=\",)");
 
     static  CookieStore cookieStore = new BasicCookieStore();
 
@@ -110,8 +114,7 @@ public class DemoPageProcessor{
 
         HttpResponse httpResponse = httpClient.execute(httpGet);
         String result= EntityUtils.toString(httpResponse.getEntity(),"utf-8");
-        Pattern p = Pattern.compile("(?<=\"&token=).*?(?=\",)");
-        Matcher matcher = p.matcher(result);
+        Matcher matcher = TOKEN_PATTERN.matcher(result);
         String token="";
         while(matcher.find()){
             token = matcher.group();
@@ -119,6 +122,18 @@ public class DemoPageProcessor{
 
         HttpGet httpGetSearch = new HttpGet(SEARCHURL);
 
+        Map<String,Object> map = new HashMap<>();
+        map.put("action","search_biz");
+        map.put("token",token);
+        map.put("random",Math.random());
+        httpGetSearch.addHeader("HOST","mp.weixin.qq.com");
+        httpGetSearch.addHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36");
+
+        PublicSuffixMatcher publicSuffixMatcher1 = PublicSuffixMatcherLoader.load(new URL(httpGetSearch.getURI().toString()));
+        DefaultHostnameVerifier hostnameVerifier1 = new DefaultHostnameVerifier(publicSuffixMatcher1);
+        httpClient = HttpClients.custom().setSSLHostnameVerifier(hostnameVerifier1).setDefaultCookieStore(cookieStore).build();
+
+        HttpResponse httpResponse1 = httpClient.execute(httpGetSearch);
         System.out.println(token);
     }
 
