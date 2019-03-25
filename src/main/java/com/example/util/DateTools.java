@@ -217,4 +217,8 @@ public class DateTools {
         return firstDay;
     }
 
+    public static Date todayFormat() throws Exception{
+
+        return stringToDate(getToday("yyyy-MM-dd"), "yyyy-MM-dd");
+    }
 }

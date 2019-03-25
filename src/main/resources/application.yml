@@ -18,3 +18,16 @@ spring:
         max-active: 10
         min-idle: 2
         max-wait: 100ms
+
+  mail:
+    host: smtp.exmail.qq.com
+    username: fliu@dunoinfo.com
+    password: oR4XzPJnKyffpAGR
+    default-encoding: UTF-8
+    port: 465
+
+    properties:
+      mail:
+        smtp:
+          socketFactory.class: javax.net.ssl.SSLSocketFactory
+      debug: true

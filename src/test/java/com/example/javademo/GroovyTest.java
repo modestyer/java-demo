@@ -8,7 +8,10 @@ import com.example.util.GroovyUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -30,6 +33,12 @@ public class GroovyTest {
 
     @Autowired
     PersonService personService;
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+    @Value("${spring.mail.username}")
+    private String fromAddr;
 
     @Test
     public void test1() throws Exception{
@@ -163,5 +172,18 @@ public class GroovyTest {
         stringBuffer.append("}\n");
         stringBuffer.append("}\n");
         groovyService.runScript(stringBuffer.toString(), list);
+    }
+
+
+    @Test
+    public void sendMail(){
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(fromAddr);
+        message.setTo("810033500@qq.com");
+        message.setSubject("测试");
+        // 内容
+        message.setText("测试邮件");
+
+        mailSender.send(message);
     }
 }

@@ -65,6 +65,7 @@ public class DemoPageProcessor{
     private static Set<Cookie> cookies;
 
     public static void wechatLogin() throws InterruptedException {
+        Set<Cookie> cookies = new HashSet<>();
         LOGGER.info("启动浏览器，打开微信公众号登录界面");
         //设置驱动程序路径
         //Chrome
@@ -88,12 +89,26 @@ public class DemoPageProcessor{
         LOGGER.info("点击登陆");
         driver.findElement(By.className("btn_login")).click();
         LOGGER.info("请拿手机扫码二维码登录公众号");
-        Thread.sleep(10000);
+        Thread.sleep(5000);
+        while(cookies.size()!=17){
+            cookies  = driver.manage().getCookies();
+        }
+
+        List<Cookie> list = new ArrayList<>(cookies);
+        for(Cookie cookie : list){
+            if(cookie.getName().equals("remember_acct")){
+                Date date = cookie.getExpiry();
+            }
+        }
+        Cookie cookie = list.get(0);
+        Date date = cookie.getExpiry();
+
+
+
         LOGGER.info("登录成功");
 
-        cookies  = driver.manage().getCookies();
 
-//        driver.quit();
+        driver.quit();
     }
 
     public static void getWeChatContent() throws Exception{
@@ -259,7 +274,8 @@ public class DemoPageProcessor{
 
     public static void main(String[] args) throws Exception{
 //        wechatLogin();
-        getWeChatContent();
+//        getWeChatContent();
+        wechatLogin();
         /*String str = "param: [\"&token=1254205642\", '&lang=zh_CN'].join(\"\")";
 
         Pattern p = Pattern.compile("(?<=\"&token=).*?(?=\",)");
