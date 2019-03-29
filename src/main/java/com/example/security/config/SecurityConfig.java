@@ -1,5 +1,6 @@
 package com.example.security.config;
 
+import com.example.security.service.MySecurityUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,13 +24,27 @@ import javax.sql.DataSource;
  * @Date 2019/2/25
  **/
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final Logger logger= LoggerFactory.getLogger(SecurityConfig.class);
 
     @Autowired
     DataSource dataSource;
+
+    @Autowired
+    private MySecurityUserDetailsService userDetailsService;
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        //忽略掉静态资源
+        web.ignoring().antMatchers("/js/**","/css/**","/image/**");
+    }
+
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(new MyPasswordEncode());
+    }
 
     /**
      * @Author liuf
@@ -53,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @Param [auth]
      * @return void
      **/
-    @Override
+    /*@Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         logger.info("基于数据库表的用户存储");
         auth.jdbcAuthentication().passwordEncoder(passwordEncoder())
@@ -62,16 +78,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authoritiesByUsernameQuery("select username,authority from authorities where username = ?")
                 .groupAuthoritiesByUsername("select g.id, g.group_name, ga.authority from groups g, group_members gm, group_authorities ga where gm.username = ? and g.id = ga.group_id and g.id = gm.group_id");
 
-    }
+    }*/
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         logger.info("设置拦截资源");
-        http.formLogin()          // 定义当需要用户登录时候，转到的登录页面。
+        /*http.formLogin()          // 定义当需要用户登录时候，转到的登录页面。
                 .and()
                 .authorizeRequests()    // 定义哪些URL需要被保护、哪些不需要被保护
                 .anyRequest()        // 任何请求,登录后可以访问
-                .authenticated();
+                .authenticated();*/
+        http.authorizeRequests()
+                //项目主路径允许任何权限访问
+                .antMatchers("/").permitAll()
+                //其他任意请求拦截
+                .anyRequest().authenticated()
+                .and()
+                //允许登出任何权限访问
+                .logout().permitAll()
+                .and()
+                //支持表单提交
+                .formLogin();
+        //关闭csrf认证
+        http.csrf().disable();
     }
 
     @Bean

@@ -17,4 +17,9 @@ public class HelloController {
     public String hello(){
         return "hello spring Security";
     }
+
+    @RequestMapping("/")
+    public String home(){
+        return "hello home page";
+    }
 }
