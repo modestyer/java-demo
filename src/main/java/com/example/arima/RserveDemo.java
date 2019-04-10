@@ -3,9 +3,6 @@ package com.example.arima;
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.Rserve.RConnection;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-
 /**
  * @Description
  * @Author liuf
@@ -83,24 +80,24 @@ public class RserveDemo {
 
 
     public static void test1() throws Exception{
-        RConnection connection = new RConnection("192.168.49.133");
+        RConnection connection = new RConnection("192.168.79.130");
         REXP x =connection.eval("R.version.string");
         System.out.println(x.asString());
         String clipboard = "clipboard";
         String ML = "ML";
         connection.eval("library(forecast)");
         StringBuffer str = new StringBuffer();
-        try(BufferedInputStream bif = new BufferedInputStream(new FileInputStream("F:/data1.txt"))){
+        /*try(BufferedInputStream bif = new BufferedInputStream(new FileInputStream("F:/data1.txt"))){
             byte[] bytes = new byte[1024];
             int len = 0;
             while ((len = bif.read(bytes))!=-1){
                 str.append(new String(bytes,0,len));
             }
-        }
+        }*/
 //        connection.eval("X=read.table('clipboard',header=F)");
 //        connection.eval("X <- data.frame(c("+str.toString()+"))");
-//        connection.eval("X <- data.frame(c(0.059,0.057,0.083,0.086,0.108,0.106,0.068,0.173,0.201,0.259,0.316,0.354,0.302,0.268,0.436,0.341,0.177,0.117,0.077,0.065,0.04,0.038,0.074,0.129))");
-        connection.eval("X <- data.frame(c(0.085,0.145,0.175,0.187,0.156,0.189))");
+        connection.eval("X <- data.frame(c(0.059,0.057,0.083,0.086,0.108,0.106,0.068,0.173,0.201,0.259,0.316,0.354,0.302,0.268,0.436,0.341,0.177,0.117,0.077,0.065,0.04,0.038,0.074,0.129))");
+//        connection.eval("X <- data.frame(c(0.085,0.145,0.175,0.187,0.156,0.189))");
         connection.eval("airts <- ts(X,start=1,frequency=24)");
         connection.eval("plot.ts(airts)");
         connection.eval("airdiff <- diff(airts, differences=1)");
