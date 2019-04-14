@@ -3,8 +3,12 @@ package com.example.javademo.nio;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
@@ -53,9 +57,38 @@ public class TestChannel {
 //        test1();
 //        test2();
 //        test3();
-        test4();
+//        test4();
+        test5();
     }
 
+
+    /**
+     * 编码，解码
+     */
+    public static void test5() throws Exception{
+        Charset charset = Charset.forName("UTF-8");
+        //编码
+        CharsetEncoder encoder = charset.newEncoder();
+        //解码
+        CharsetDecoder decoder = charset.newDecoder();
+
+        CharBuffer charBuffer = CharBuffer.allocate(1024);
+        charBuffer.put("测试编码解码");
+
+        charBuffer.flip();
+
+        ByteBuffer byteBuffer = encoder.encode(charBuffer);
+
+        for(int i=0;i<byteBuffer.limit();i++){
+            System.out.println(i+"========"+byteBuffer.get());
+        }
+
+        byteBuffer.flip();
+
+        CharBuffer decode = decoder.decode(byteBuffer);
+        System.out.println(decode.toString());
+
+    }
 
     /**
      *
