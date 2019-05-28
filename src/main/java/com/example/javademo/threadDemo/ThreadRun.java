@@ -1,8 +1,9 @@
 package com.example.javademo.threadDemo;
 
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author liuf
@@ -10,8 +11,8 @@ import java.util.concurrent.FutureTask;
  */
 public class ThreadRun {
 
-    public static void main(String[] args) {
-        MyThread myThread = new MyThread("A");
+    public static void main(String[] args) throws ParseException {
+        /*MyThread myThread = new MyThread("A");
         myThread.start();
 
         System.out.println("thread 运行结束");
@@ -34,8 +35,15 @@ public class ThreadRun {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
-        }
+        }*/
 
-
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 1);
+        calendar.set(Calendar.SECOND, 0);
+        Date time = calendar.getTime();
+        System.out.println(time);
     }
+
+
 }
